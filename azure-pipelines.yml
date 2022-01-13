@@ -54,3 +54,10 @@ steps:
     command: 'pack'
     packagesToPack: '$(Build.SourcesDirectory)/Boleto2.Net/Boleto2.Net.nuspec'
     versioningScheme: 'off'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publica Projeto Boleto
+  inputs:
+    PathtoPublish: '$(Build.artifactStagingDirectory)'
+    ArtifactName: 'boleto'
+    publishLocation: 'Container'
