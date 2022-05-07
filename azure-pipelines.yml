@@ -7,11 +7,11 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2022'
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
+  buildPlatform: 'AnyCPU'
   buildConfiguration: 'Release'
 
 steps:
@@ -26,38 +26,25 @@ steps:
   inputs:
     command: 'restore'
     restoreSolution: '$(solution)'
-    # feedsToUse: 'config'
-    # nugetConfigPath: 'Openline.Erp/nuget.config'
 
-# - task: MSBuild@1
-#   displayName: Compila Projeto Boleto
-#   inputs:
-#     solution: '$(Build.SourcesDirectory)/Boleto2.Net/Boleto2.Net.csproj'
-#     msbuildArchitecture: 'x64'
-#     platform: 'AnyCPU'
-#     configuration: '$(buildConfiguration)'
-
-- task: VSBuild@1
+- task: MSBuild@1
+  displayName: Builda Projeto Boleto
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    solution: '$(Build.SourcesDirectory)/Boleto2.Net/Boleto2.Net.csproj'
+    msbuildArchitecture: 'x64'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-# - task: VSTest@2
-#   inputs:
-#     platform: '$(buildPlatform)'
-#     configuration: '$(buildConfiguration)'
-    
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
     packagesToPack: '$(Build.SourcesDirectory)/Boleto2.Net/Boleto2.Net.nuspec'
+    packDestination: '$(build.artifactStagingDirectory)/Boleto2.Net.nupkg'
     versioningScheme: 'off'
 
 - task: PublishBuildArtifacts@1
   displayName: Publica Projeto Boleto
   inputs:
-    PathtoPublish: '$(Build.artifactStagingDirectory)'
+    PathtoPublish: '$(Build.artifactStagingDirectory)/Boleto2.Net.nupkg'
     ArtifactName: 'boleto'
     publishLocation: 'Container'
