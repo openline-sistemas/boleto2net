@@ -1,19 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;net48;netstandard2.1;net6.0</TargetFrameworks>
+    <TargetFrameworks>net48;netstandard2.1;net6.0</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
-    <Reference Include="System.Web" />
-	  <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Design" />
-    <Reference Include="WindowsBase" />
-	  <PackageReference Include="NReco.PdfGenerator">
-      <Version>1.1.15</Version>
-    </PackageReference>
-  </ItemGroup>
-  
   <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
     <Reference Include="System.Web" />
 	  <Reference Include="Microsoft.CSharp" />
